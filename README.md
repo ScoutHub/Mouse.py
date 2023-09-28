@@ -6,3 +6,4 @@ Small script for Mouse in python.
 
 ## Run in terminal
 `python3 mouse.py`
+and choose between mod 1 or 2.
