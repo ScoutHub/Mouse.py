@@ -5,10 +5,11 @@ from screeninfo import get_monitors
 
 AUTOCLICK_SPEED = 5
 AUTOMOVE_SPEED = 0.025
-WINDOW_WIDTH = get_monitors()[0].width
-WINDOW_HEIGHT = get_monitors()[0].height
+MAX_WIDTH = 0
+MAX_HEIGHT = 0
 
 mouse = Controller()
+monitors = get_monitors()
 
 def menu():
     print("=== Python Autoclick/Automove script ===")
@@ -31,8 +32,8 @@ def auto_click():
 
 def auto_move():
     while(1):
-        x = randint(0, WINDOW_WIDTH)
-        y = randint(0, WINDOW_HEIGHT)
+        x = randint(0, MAX_WIDTH)
+        y = randint(0, MAX_HEIGHT)
         mouse.position = (x, y)
         sleep(AUTOMOVE_SPEED)
 
@@ -41,6 +42,17 @@ def start(choice):
     elif(choice == 2): auto_move()
     else: print("This mod isn't valid (valid mod: 1 or 2)")
 
-choice = 0
-choice = menu()
-start(choice)
+def set_max_size():
+    global MAX_HEIGHT, MAX_WIDTH
+    for monitor in monitors:
+        MAX_WIDTH += monitor.width
+        MAX_HEIGHT += monitor.height
+
+def main():
+    choice = 0
+    choice = menu()
+    set_max_size()
+    start(choice)
+
+main()
+
