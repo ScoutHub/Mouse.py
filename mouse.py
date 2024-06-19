@@ -2,26 +2,21 @@ from pynput.mouse import Button, Controller
 from time import sleep
 from random import randint
 from screeninfo import get_monitors
+import argparse
 
 AUTOCLICK_SPEED = 5
 AUTOMOVE_SPEED = 0.025
 MAX_WIDTH = 0
 MAX_HEIGHT = 0
 
+parser = argparse.ArgumentParser(
+        prog='mouse.py',
+        description='Autoclick/Automove to keep an activity on pc'
+)
+parser.add_argument('-m','--mod', type=str,help='1 for autoclick | 2 for automove')
+
 mouse = Controller()
 monitors = get_monitors()
-
-def menu():
-    print("=== Python Autoclick/Automove script ===")
-    print("Used for keep an activity in your pc.")
-    print("1. Autoclick")
-    print("2. Automove")
-    choice = -1
-    while(choice != "1" and choice != "2"):
-        choice = input("Please choose a mod: ")
-        if(not(choice.isdigit())):
-            print("Please type a valid mod.")
-    return int(choice)
 
 def auto_click():
     while(1):
@@ -49,8 +44,11 @@ def set_max_size():
         MAX_HEIGHT += monitor.height
 
 def main():
-    choice = 0
-    choice = menu()
+    args = parser.parse_args()
+    if(args.mod == None):
+        parser.print_help()
+        return
+    choice = int(args.mod)
     set_max_size()
     start(choice)
 
